@@ -13,7 +13,8 @@ const Table3 = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  const backendIPAddress = 'http://174.138.30.245:8080/'
+  // const backendIPAddress = 'http://174.138.30.245:8080/'
+  const backendIPAddress = 'http://localhost:8080/'
 
   useEffect(() => {
     //รับค่า API
@@ -38,6 +39,7 @@ const Table3 = () => {
       let allRoom = items.map((v) => v.room);
       let rooms = allRoom.filter(unique);
       setRoom((room) => rooms);
+      
 
       // เลือกวัน เดือน ปี
       let date = new Date();
@@ -66,7 +68,9 @@ const Table3 = () => {
       let unique = (value, index, self) => {
         return self.indexOf(value) === index;
       };
-      let room1 = showRoom.map((v) => v);
+      let room1 =room 
+      
+      room1 = showRoom.map((v) => v);
       let room2 = room1.filter(unique);
       return room2;
     }
