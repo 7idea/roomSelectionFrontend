@@ -60,7 +60,17 @@ const Table3 = () => {
   }, []);
 
   const reLoad = () => {
-    setShowData((showData) => data);
+    axios.get( backendIPAddress + `alluser`).then((res) => {
+      const items = res.data.map((v) => {
+        v.last_deposit = new Date(v.last_deposit);
+        v.last_login_dt = new Date(v.last_login_dt);
+        v.register_date = new Date(v.register_date);
+        return v;
+      });
+      setData((data) => items);
+      setShowData((showData) => data);
+    });
+    
   };
 
   const roomList = () => {
@@ -212,6 +222,33 @@ const Table3 = () => {
       url: backendIPAddress + "editroom/" + id + "/" + selectedRoom,
     })
       .then(console.log("เปลี่ยนแปลงข้อมูลห้องเรียบร้อย"))
+      .catch((error) => console.log(error))
+      .then(() =>{
+        axios.get( backendIPAddress + `alluser`).then((res) => {
+          const items = res.data.map((v) => {
+            v.last_deposit = new Date(v.last_deposit);
+            v.last_login_dt = new Date(v.last_login_dt);
+            v.register_date = new Date(v.register_date);
+            return v;
+          });
+          setData((data) => items);
+          // setShowData((showData) => data);
+        });
+      })
+    
+    
+  };
+
+  const saveLineId = (lineIdTag, id) =>{
+    let value = document.getElementById(lineIdTag).value;
+    if(value === ""){
+      value = "null"
+    }
+    axios({
+      method: "PUT",
+      url: backendIPAddress + "lineid/" + id + "/" + value
+    })
+      .then()
       .catch((error) => console.log(error));
   };
 
@@ -321,7 +358,13 @@ const Table3 = () => {
                   </select>
                 </td>
                 <td>
-                  <input type="text" className="form-control" />
+                  <form className="form-inline" > 
+                    <input type="text" className="form-control" style={{width:"80%"}} id={"lineId" + index} defaultValue={ (v.line_id === "null" || v.line_id === null) ? "" : v.line_id }/>
+                    <button type="button" className="btn btn-primary" onClick={() => saveLineId("lineId"+index, v.id) }>save</button>
+                  </form>
+                  {/* <input type="text" className="form-control" value={v.line_id || ""} onChange={ (val) => {
+
+                  }}/> */}
                 </td>
                 <td>{v.wallet}</td>
                 <td>{v.last_deposit.toISOString().split("T")[0]}</td>
