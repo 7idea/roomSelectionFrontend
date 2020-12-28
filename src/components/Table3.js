@@ -13,7 +13,7 @@ const Table3 = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  const backendIPAddress = 'https://3.140.195.1:443/'
+  const backendIPAddress = 'http://ec2-3-140-195-1.us-east-2.compute.amazonaws.com:8000/'
   // const backendIPAddress = 'http://localhost:8080/'
 
   useEffect(() => {
